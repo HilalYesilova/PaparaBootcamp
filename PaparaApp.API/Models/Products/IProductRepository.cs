@@ -1,10 +1,12 @@
-﻿namespace PaparaApp.API.Models.Products
+﻿using PaparaApp.API.Models.Products.DTOs;
+
+namespace PaparaApp.API.Models.Products
 {
     public interface IProductRepository
     {
         List<Product> GetAll();
-        void Add(Product product);
+        Product Add(Product product);
         void Update(Product product);
-        void Delete(int Id);
+        void Delete(int id);
     }
 }

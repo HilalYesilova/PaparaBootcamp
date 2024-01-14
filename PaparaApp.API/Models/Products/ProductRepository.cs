@@ -8,8 +8,10 @@
         {
             if (Products.Count == 0)
             {
-                Products.Add(new Product { Id = 1, Name = "Product 1", Price = 1 });
-                Products.Add(new Product { Id = 2, Name = "Product 2", Price = 2 });
+                Products.Add(new Product { Id = 1, Name = "Product 1", Price = 100 });
+                Products.Add(new Product { Id = 2, Name = "Product 2", Price = 200 });
+                Products.Add(new Product { Id = 3, Name = "Product 3", Price = 300 });
+                Products.Add(new Product { Id = 4, Name = "Product 4", Price = 400 });
             }
         }
 
@@ -18,24 +20,24 @@
             return Products;
         }
 
-        public void Add(Product product)
+        public Product Add(Product product)
         {
             Products.Add(product);
+            return product;
         }
 
         public void Update(Product product)
         {
-            var productToUpdateIndex = Products.FindIndex(s => s.Id == product.Id);
+            var productToUpdateIndex = Products.FindIndex(p => p.Id == product.Id);
 
             Products[productToUpdateIndex].Name = product.Name;
             Products[productToUpdateIndex].Price = product.Price;
         }
 
-        public void Delete(int Id)
+        public void Delete(int id)
         {
-            var productToUpdateIndex = Products.FindIndex(s => s.Id == Id);
-
-            Products.RemoveAt(productToUpdateIndex);
+            var productToDeleteIndex = Products.FindIndex(p => p.Id == id);
+            Products.RemoveAt(productToDeleteIndex);
         }
     }
 }
