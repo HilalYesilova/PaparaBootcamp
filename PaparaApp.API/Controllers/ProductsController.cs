@@ -26,6 +26,7 @@ namespace PaparaApp.API.Controllers
             var pictureDirectory = _fileProvider.GetDirectoryContents("wwwroot/pictures");
             var picture = pictureDirectory.Where(x => x.Name == "pictures")!.First();
             var path = Path.Combine(picture.PhysicalPath!, file.FileName);
+
             using var stream = new FileStream(path, FileMode.Create);
             file.CopyTo(stream);
 
@@ -44,7 +45,7 @@ namespace PaparaApp.API.Controllers
             return Ok(productService.GetAll());
         }
 
-        [HttpGet("page/{page}size{size}")]
+        [HttpGet("page/{page}/size/{size}")]
         public IActionResult GetProductWithPages(int page, int size)
         {
             return Ok(productService.GetAll());
@@ -53,7 +54,7 @@ namespace PaparaApp.API.Controllers
         [HttpPost]
         public IActionResult Add(ProductAddDtoRequest request)
         {
-            ResponseDto<int> result = productService.Add(request);
+            var result = productService.Add(request);
             return Created("", result);
         }
 
