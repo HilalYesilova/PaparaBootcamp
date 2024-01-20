@@ -6,16 +6,18 @@ namespace PaparaApp.API.Models.Products
     public class ProductService : IProductService
     {
         private readonly IMapper _mapper;
-        private readonly IProductRepository productRepository;
+        private readonly ProductHelper _productHelper;
+        private readonly IProductRepository _productRepository;
 
-        public ProductService(IMapper mapper)
+        public ProductService(IMapper mapper, IProductRepository productRepository, ProductHelper productHelper)
         {
             _mapper = mapper;
-            productRepository = new ProductRepository();
+            _productRepository = productRepository;
+            _productHelper = productHelper;
         }
         public List<ProductDto> GetAll()
         {
-            List<Product> products = productRepository.GetAll();
+            List<Product> products = _productRepository.GetAll();
             List<ProductDto> productDtos = _mapper.Map<List<ProductDto>>(products);
             return productDtos;
 
@@ -48,7 +50,7 @@ namespace PaparaApp.API.Models.Products
                 Price = request.Price!.Value
             };
 
-            productRepository.Add(product);
+            _productRepository.Add(product);
             return ResponseDto<int>.Success(id);
             //return new ResponseDto<int> { Data = id };
         }
@@ -61,12 +63,13 @@ namespace PaparaApp.API.Models.Products
                 Price = request.Price
             };
 
-            productRepository.Update(product);
+            _productRepository.Update(product);
         }
 
         public void Delete(int id)
         {
-            productRepository.Delete(id);
+            _productHelper.CalculateTax(200);
+            _productRepository.Delete(id);
         }
     }
 }

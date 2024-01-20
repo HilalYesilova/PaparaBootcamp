@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using PaparaApp.API.Extensions;
 using PaparaApp.API.Models;
 using PaparaApp.API.Models.Products;
 using PaparaApp.API.Models.Products.DTOs;
+using PaparaApp.API.SOLID.ISP;
 
 namespace PaparaApp.API.Controllers
 {
@@ -11,12 +13,13 @@ namespace PaparaApp.API.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductService productService;
+        private readonly IProductService _productService;
         private readonly IFileProvider _fileProvider;
-        public ProductsController(IMapper mapper, IFileProvider fileProvider)
+        public ProductsController(IMapper mapper, IFileProvider fileProvider, IProductService productService)
         {
             _fileProvider = fileProvider;
-            productService = new ProductService(mapper);
+
+            _productService = productService;
         }
 
         [Route("SaveFile")]
@@ -36,39 +39,49 @@ namespace PaparaApp.API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(productService.GetAll());
+            ////EXTENSION METHODS USING EX
+            //double price = 200;
+            //var kdv = price.CalculateTax();
+
+            //var user = new { Name = "Ahmet", Surname = "Yıldız" };
+
+
+            //user.Name.GetFullName(user.Surname);
+            //var fullName = new StringHelper().GetFullName(user.Name, user.Surname);
+
+            return Ok(_productService.GetAll());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok(productService.GetAll());
+            return Ok(_productService.GetAll());
         }
 
         [HttpGet("page/{page}/size/{size}")]
         public IActionResult GetProductWithPages(int page, int size)
         {
-            return Ok(productService.GetAll());
+            return Ok(_productService.GetAll());
         }
 
         [HttpPost]
         public IActionResult Add(ProductAddDtoRequest request)
         {
-            var result = productService.Add(request);
+            var result = _productService.Add(request);
             return Created("", result);
         }
 
         [HttpPut]
         public IActionResult Update(ProductUpdateDtoRequest request)
         {
-            productService.Update(request);
+            _productService.Update(request);
             return NoContent();
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            productService.Delete(id);
+            _productService.Delete(id);
             return NoContent();
         }
 
