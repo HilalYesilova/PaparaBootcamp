@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using PaparaApp.API.Extensions;
+using PaparaApp.API.Filters;
 using PaparaApp.API.Models;
 using PaparaApp.API.Models.Products;
 using PaparaApp.API.Models.Products.DTOs;
@@ -36,6 +37,7 @@ namespace PaparaApp.API.Controllers
             return Created($"/pictures/{file.FileName}", null);
         }
 
+        [ExampleResourceFilter]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -52,10 +54,11 @@ namespace PaparaApp.API.Controllers
             return Ok(_productService.GetAll());
         }
 
+        [IPCheckActionFilter]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok(_productService.GetAll());
+            return Ok(_productService.GetById(id));
         }
 
         [HttpGet("page/{page}/size/{size}")]
@@ -79,6 +82,8 @@ namespace PaparaApp.API.Controllers
         }
 
         [HttpDelete]
+        //[NotFoundActionFilter] const parametre varsa attr olarak kullanamayız onun yerine
+        [ServiceFilter<NotFoundActionFilter>] //ekleyip DI container'a da ekliyoruz.
         public IActionResult Delete(int id)
         {
             _productService.Delete(id);

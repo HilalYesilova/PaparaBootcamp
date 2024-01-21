@@ -1,4 +1,6 @@
-﻿namespace PaparaApp.API.Models.Products;
+﻿using PaparaApp.API.Filters;
+
+namespace PaparaApp.API.Models.Products;
 
 public static class ProductDIContainerExt
 {
@@ -7,5 +9,6 @@ public static class ProductDIContainerExt
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ProductHelper>();
+        services.AddScoped<NotFoundActionFilter>();
     }
 }

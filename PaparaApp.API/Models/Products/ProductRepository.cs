@@ -39,5 +39,10 @@
             var productToDeleteIndex = Products.FindIndex(p => p.Id == id);
             Products.RemoveAt(productToDeleteIndex);
         }
+
+        public Product? GetById(int id)
+        {
+            return Products.Where(s => s.Id == id).FirstOrDefault();
+        }
     }
 }

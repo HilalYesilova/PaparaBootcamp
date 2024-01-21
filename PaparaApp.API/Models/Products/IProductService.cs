@@ -8,5 +8,6 @@ namespace PaparaApp.API.Models.Products
         void Delete(int id);
         ResponseDto<int> Add(ProductAddDtoRequest request);
         void Update(ProductUpdateDtoRequest request);
+        Product GetById(int id);
     }
 }

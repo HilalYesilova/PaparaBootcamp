@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PaparaApp.API.Models.Products.DTOs;
+using PaparaApp.API.TwoDay.AbstractExample;
 
 namespace PaparaApp.API.Models.Products
 {
@@ -15,11 +16,13 @@ namespace PaparaApp.API.Models.Products
             _productRepository = productRepository;
             _productHelper = productHelper;
         }
-        public List<ProductDto> GetAll()
+        public ResponseDto<List<ProductDto>> GetAll()
         {
             List<Product> products = _productRepository.GetAll();
             List<ProductDto> productDtos = _mapper.Map<List<ProductDto>>(products);
-            return productDtos;
+            //return productDtos;
+            return ResponseDto.Success(productDtos);
+
 
             #region 1. way
 
@@ -70,6 +73,12 @@ namespace PaparaApp.API.Models.Products
         {
             _productHelper.CalculateTax(200);
             _productRepository.Delete(id);
+        }
+
+        public Product GetById(int id)
+        {
+            Product product = _mapper.Map<Product>(_productRepository.GetById(id));
+            return product;
         }
     }
 }
